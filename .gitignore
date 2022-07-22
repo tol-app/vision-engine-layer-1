@@ -131,3 +131,5 @@ dmypy.json
 # Folder ignore
 #vision-env
 keys
+bin
+lib
