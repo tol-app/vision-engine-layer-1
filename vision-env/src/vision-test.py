@@ -1,7 +1,9 @@
 import io
 import os
 import sys
+import numpy as np
 import cv2
+from pyautogui import size
 
 # Imports the Google Cloud client library
 from google.cloud import vision
@@ -38,12 +40,44 @@ image_name = sys.argv[1]
 # The name of the image file to annotate
 file_name = os.path.abspath(image_name)
 
+# File path check
+if not(os.path.exists(file_name)):
+    while True:
+        print("Wrong file or file path\n")
+
+        # Press q to exit or enter correct path
+        userin = input("Enter the correct path or press q to quit: ")
+        if userin != "q" or "Q":
+            file_name = userin
+            break
+        else:
+            sys.exit(0)
+
 # Initialize the list of reference point
 ref_point = []
 crop = False
-  
-image = cv2.imread(file_name)
+
+image = cv2.imread(file_name, 1)
+
+#Fetch screen and image res data
+scr_width, scr_height  = size()
+img_width, img_height  = image.shape[0], image.shape[1]
+img_ratio              = img_height / img_width
+resize_factor          = 0.8   # 1 is fullscreen
+
+# Check if image is larger than monitor
+if img_width / scr_width > 1 or img_height / scr_height > 1:
+
+    #scale image to a more reasonable size
+    scaled_width = int((2 - (img_width / scr_width)) * img_width * resize_factor)
+    scaled_height = int(scaled_width / img_ratio)
+
+    image = cv2.resize(image, (scaled_width, scaled_height), interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite('~/vision-env/images/testset/test0/copy_res.jpg', image)
+
+#FIXME: fix absolute/relative path problem on Linux on cloning image
 clone = image.copy()
+
 cv2.namedWindow("image")
 cv2.setMouseCallback("image", shape_selection)
    
@@ -56,6 +90,10 @@ while True:
     # press 'r' to reset the window
     if key == ord("r"):
         image = clone.copy()
+
+    # press 'q' to quit
+    if key == ord("q"):
+        sys.exit(0)
   
     # if the 'c' key is pressed, break from the loop
     elif key == ord("c"):
