@@ -6,6 +6,9 @@ import cv2
 # Imports the Google Cloud client library
 from google.cloud import vision
 
+# Minimum score required for labels detection
+MIN_SCORE_REQUIRED = 0.80
+
 def shape_selection(event, x, y, flags, param):
     # grab references to the global variables
     global ref_point, crop
@@ -85,6 +88,12 @@ image = vision.Image(content=content)
 response = client.label_detection(image=image)
 labels = response.label_annotations
 
+# Labels sorted by attribute score
+sorted_labels = sorted(labels, key=lambda x:x.score, reverse=True)
+
+# Labels filtered by attribute score
+filtered_labels = filter(lambda x:x.score > MIN_SCORE_REQUIRED, sorted_labels)
+
 print('Labels:')
-for label in labels:
-    print(label.description)
+for label in filtered_labels:
+    print(label.description + ' ---> ' + str(label.score))
