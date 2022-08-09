@@ -25,6 +25,10 @@ def shape_selection(event, x, y, flags, param):
         cv2.rectangle(image, ref_point[0], ref_point[1], (0, 255, 0), 2)
         cv2.imshow("image", image)
 
+key_rel_path= os.path.join('..', 'keys', 'developerKey.json')
+key = os.path.abspath(key_rel_path)
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key
+
 # User input from the command line
 image_name = sys.argv[1]
 
