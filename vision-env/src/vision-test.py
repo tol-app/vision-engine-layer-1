@@ -4,12 +4,13 @@ import sys
 import numpy as np
 import cv2
 import math
-import colors_detection
 import json
 from genericpath import isfile
 from pyautogui import size
 from google.cloud import vision
 
+import colors_detection
+import google_search
 # Minimum score required for labels detection
 MIN_SCORE_REQUIRED = 0.80
 
