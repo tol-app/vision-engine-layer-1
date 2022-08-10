@@ -109,8 +109,7 @@ sorted_colors = sorted(colors, key=lambda x:x.pixel_fraction, reverse=True)
 # Actually no filtering policy
 filtered_colors = sorted_colors
 
-print()
-print('Labels:')
+print('\nLabels:')
 for label in filtered_labels:
     print('--- Label: ' + label.description + ' ---> ' + str(math.trunc(label.score*100)) + '%' +
             '\n')
