@@ -114,8 +114,7 @@ for label in filtered_labels:
     print('--- Label: ' + label.description + ' ---> ' + str(math.trunc(label.score*100)) + '%' +
             '\n')
 
-print()
-print('Colors:')
+print('\nColors:')
 for color_info in filtered_colors:
     color = color_info.color
 
