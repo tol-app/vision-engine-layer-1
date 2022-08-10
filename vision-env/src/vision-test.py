@@ -2,12 +2,18 @@ import io
 import os
 import sys
 import cv2
+import math
+import colors_detection
 
 # Imports the Google Cloud client library
 from google.cloud import vision
 
 # Minimum score required for labels detection
 MIN_SCORE_REQUIRED = 0.80
+
+# Minimum pixel_fraction required for color detection.
+# Actually unused but useful for filtering colors.
+MIN_PFRACTION_REQUIRED = 0.02
 
 def shape_selection(event, x, y, flags, param):
     # grab references to the global variables
@@ -85,15 +91,47 @@ client = vision.ImageAnnotatorClient()
 image = vision.Image(content=content)
 
 # Performs label detection on the image file
-response = client.label_detection(image=image)
-labels = response.label_annotations
+label_response = client.label_detection(image=image)
+labels = label_response.label_annotations
+
+# Performs image_properties detection on the image file
+colors_response = client.image_properties(image=image)
+colors = colors_response.image_properties_annotation.dominant_colors.colors
 
 # Labels sorted by attribute score
 sorted_labels = sorted(labels, key=lambda x:x.score, reverse=True)
-
 # Labels filtered by attribute score
 filtered_labels = filter(lambda x:x.score > MIN_SCORE_REQUIRED, sorted_labels)
 
+# Labels sorted by attribute score
+sorted_colors = sorted(colors, key=lambda x:x.pixel_fraction, reverse=True)
+# Colors filtered by attribute pixel_fraction
+#filtered_colors = filter(lambda x:x.pixel_fraction > MIN_PFRACTION_REQUIRED, sorted_colors)
+# Actually no filtering policy
+filtered_colors = sorted_colors
+
+print()
 print('Labels:')
 for label in filtered_labels:
-    print(label.description + ' ---> ' + str(label.score))
+    print('--- Label: ' + label.description + ' ---> ' + str(math.trunc(label.score*100)) + '%' +
+            '\n')
+
+print()
+print('Colors:')
+for color_info in filtered_colors:
+    color = color_info.color
+
+    red = math.trunc(color.red)
+    green = math.trunc(color.green)
+    blue = math.trunc(color.blue)
+
+    rgb_triplet = (red, green, blue)
+    rgb_triplet_str = (str(red) + '%', str(green) + '%', str(blue) + '%')
+    color_name = colors_detection.convert_rgb_to_names(rgb_triplet)
+
+    # uncomment for verbose output
+    #print(str(color_info.pixel_fraction) + ' == ' + str(math.trunc(color_info.pixel_fraction*100)) + '%' + '   score: ' + str(color_info.score) + '---> ' + color_name)
+    print('--- Pixel Fraction: ' + str(round(color_info.pixel_fraction*100, 3)) + '%' + 
+            '\tScore: ' + str(round(color_info.score, 5)) + 
+            '\tColor Name: ' + color_name + 
+            '\n')
