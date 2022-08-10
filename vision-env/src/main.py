@@ -187,3 +187,6 @@ for color_info in filtered_colors:
             '\tScore: ' + str(round(color_info.score, 5)) + 
             '\tColor Name: ' + color_name + 
             '\n')
+
+#queries = ["test", "search"]
+#google_search(queries)
