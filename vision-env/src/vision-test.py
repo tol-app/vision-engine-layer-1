@@ -177,8 +177,9 @@ for color_info in filtered_colors:
     blue = math.trunc(color.blue)
 
     rgb_triplet = (red, green, blue)
-    rgb_triplet_str = (str(red) + '%, ', str(green) + '%, ', str(blue) + '%')
-    color_name = colors_detection.convert_rgb_to_names(rgb_triplet)
+    #rgb_triplet_str = (str(red) + '%, ', str(green) + '%, ', str(blue) + '%')
+    #color_name = colors_detection.convert_rgb_to_names(rgb_triplet)
+    color_name = colors_detection.findNearestImageMagickColorName(rgb_triplet)
 
     # uncomment for verbose output
     #print(str(color_info.pixel_fraction) + ' == ' + str(math.trunc(color_info.pixel_fraction*100)) + '%' + '   score: ' + str(color_info.score) + '---> ' + color_name)
