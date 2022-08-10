@@ -5,7 +5,6 @@ import cv2
 import math
 import colors_detection
 
-# Imports the Google Cloud client library
 from google.cloud import vision
 
 # Minimum score required for labels detection
