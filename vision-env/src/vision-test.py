@@ -123,7 +123,7 @@ for color_info in filtered_colors:
     blue = math.trunc(color.blue)
 
     rgb_triplet = (red, green, blue)
-    rgb_triplet_str = (str(red) + '%', str(green) + '%', str(blue) + '%')
+    rgb_triplet_str = (str(red) + '%, ', str(green) + '%, ', str(blue) + '%')
     color_name = colors_detection.convert_rgb_to_names(rgb_triplet)
 
     # uncomment for verbose output
