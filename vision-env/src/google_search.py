@@ -13,4 +13,6 @@ def google_search(search_terms):
     url = google_base_link + " ".join(search_terms)
     print(url)
 
-    webbrowser.open(url)
+if __name__ == "__main__":
+    search_terms = []
+    google_search(search_terms)
