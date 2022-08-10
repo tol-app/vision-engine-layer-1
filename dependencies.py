@@ -1,6 +1,7 @@
 import os
 
 # List of prerequisite packages needed
+os.system("pip install virtualenv")
 os.system("python -m pip install --upgrade pip")
 os.system("pip install numpy")
 os.system("pip install opencv-python")
