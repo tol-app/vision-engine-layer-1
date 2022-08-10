@@ -67,4 +67,3 @@ def convert_rgb_to_names(rgb_tuple):
     kdt_db = KDTree(rgb_values)
     distance, index = kdt_db.query(rgb_tuple)
     return str(names[index])
- 
