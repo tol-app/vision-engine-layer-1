@@ -1,10 +1,5 @@
 import webbrowser
 
-try:
-    from googlesearch import search
-except ImportError:
-    print("No module named 'google' found")
-
 def join_data(labels = [], colors = []):
     for i in range(len(labels)):
         label_joint = "+".join(labels[i])
