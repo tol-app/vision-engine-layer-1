@@ -99,7 +99,6 @@ if img_width / scr_width > 1 or img_height / scr_height > 1:
     image = cv2.resize(image, (scaled_width, scaled_height), interpolation=cv2.INTER_CUBIC)
     cv2.imwrite('~/vision-env/images/testset/test0/copy_res.jpg', image)
 
-#FIXME: fix absolute/relative path problem on Linux on cloning image
 clone = image.copy()
 
 cv2.namedWindow("image")
