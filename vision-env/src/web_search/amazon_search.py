@@ -26,6 +26,6 @@ if __name__ == "__main__":
 
 
 ## NOTHING TO SEE HERE...
-lbl = ["jeff", "besos", "halloween", "costume"]
-clr = ["orange"]
-amazon_search([lbl], [clr])
+#lbl = ["jeff", "besos", "halloween", "costume"]
+#clr = ["orange"]
+#amazon_search([lbl], [clr])
