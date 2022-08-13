@@ -4,12 +4,13 @@ import sys
 import numpy as np
 import cv2
 import math
-import colors_detection
 import json
 from genericpath import isfile
 from pyautogui import size
 from google.cloud import vision
 
+import colors_detection
+import google_search
 # Minimum score required for labels detection
 MIN_SCORE_REQUIRED = 0.80
 
@@ -98,7 +99,6 @@ if img_width / scr_width > 1 or img_height / scr_height > 1:
     image = cv2.resize(image, (scaled_width, scaled_height), interpolation=cv2.INTER_CUBIC)
     cv2.imwrite('~/vision-env/images/testset/test0/copy_res.jpg', image)
 
-#FIXME: fix absolute/relative path problem on Linux on cloning image
 clone = image.copy()
 
 cv2.namedWindow("image")
@@ -186,3 +186,6 @@ for color_info in filtered_colors:
             '\tScore: ' + str(round(color_info.score, 5)) + 
             '\tColor Name: ' + color_name + 
             '\n')
+
+#queries = ["test", "search"]
+#google_search(queries)
