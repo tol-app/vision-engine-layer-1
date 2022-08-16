@@ -11,6 +11,8 @@ from genericpath import isfile
 from pyautogui import size
 from google.cloud import vision
 
+from web_search import search_maker
+
 # Minimum score required for labels detection
 MIN_SCORE_REQUIRED = 0.80
 
@@ -38,6 +40,8 @@ def make_query():
         else:
             labels_str = request[1]
             colors_str = request[2]
+        
+        search_maker.search(command, option, labels_str, colors_str)
 
 def shape_selection(event, x, y, flags, param):
     # grab references to the global variables
@@ -208,6 +212,6 @@ for color_info in filtered_colors:
             '\tColor Name: ' + color_name + 
             '\n')
 
-create_query()
+make_query()
 #queries = ["test", "search"]
 #google_search(queries)
