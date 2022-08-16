@@ -5,18 +5,41 @@ import numpy as np
 import cv2
 import math
 import json
+import string
 from genericpath import isfile
 from pyautogui import size
 from google.cloud import vision
 
 import colors_detection
-import google_search
+#import google_search
+
 # Minimum score required for labels detection
 MIN_SCORE_REQUIRED = 0.80
 
 # Minimum pixel_fraction required for color detection.
 # Actually unused but useful for filtering colors.
 MIN_PFRACTION_REQUIRED = 0.02
+
+def make_query():
+    print('Layout: COMMAND -OPTION LABEL1+LABEL2 COLOR1+COLOR2')
+    print('\texample: google -shop cat blue')
+    print('\texample: amazon parrot+beer yellow+orange+green')
+    while True:
+        request = input("Write here: ").split(' ')
+        command = request[0]
+        if command == 'quit':
+            break
+        if len(request) < 3 or len(request) > 4:
+            print('Invalid command, try again.')
+            continue
+        option = ''
+        if request[1][0] == '-':
+            option = request[1]
+            labels_str = request[2]
+            colors_str = request[3]
+        else:
+            labels_str = request[1]
+            colors_str = request[2]
 
 def shape_selection(event, x, y, flags, param):
     # grab references to the global variables
@@ -165,7 +188,7 @@ filtered_colors = sorted_colors
 
 print('\nLabels:')
 for label in filtered_labels:
-    print('--- Label: ' + label.description + ' ---> ' + str(math.trunc(label.score*100)) + '%' +
+    print('--- Label: ' + label.description.lower() + ' ---> ' + str(math.trunc(label.score*100)) + '%' +
             '\n')
 
 print('\nColors:')
@@ -187,5 +210,6 @@ for color_info in filtered_colors:
             '\tColor Name: ' + color_name + 
             '\n')
 
+create_query()
 #queries = ["test", "search"]
 #google_search(queries)
